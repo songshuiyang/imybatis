@@ -9,6 +9,10 @@ import java.util.Properties;
  */
 public class SqlSessionFactoryBuilder {
 
+    public SqlSessionFactory build(InputStream inputStream) {
+        return build(inputStream, null, null) ;
+    }
+
     public SqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
         return null ;
     }
