@@ -24,13 +24,13 @@ import java.net.URL;
  *
  * @author Clinton Begin
  */
-public class ClassLoaderWrapper {
+public class IClassLoaderWrapper {
 
   //defaultClassLoader没地方初始化啊?
   ClassLoader defaultClassLoader;
   ClassLoader systemClassLoader;
 
-  ClassLoaderWrapper() {
+  IClassLoaderWrapper() {
     try {
       systemClassLoader = ClassLoader.getSystemClassLoader();
     } catch (SecurityException ignored) {

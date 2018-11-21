@@ -6,9 +6,9 @@ import java.util.Properties;
  * @author songsy
  * @Date 2018/11/19 19:13
  */
-public class Configuration {
+public class IConfiguration {
     // 环境
-    protected Environment environment;
+    protected IEnvironment IEnvironment;
     // 属性文件
     protected Properties variables = new Properties();
 

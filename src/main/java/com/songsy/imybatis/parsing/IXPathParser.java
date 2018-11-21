@@ -15,7 +15,7 @@
  */
 package com.songsy.imybatis.parsing;
 
-import com.songsy.imybatis.exception.BuilderException;
+import com.songsy.imybatis.exception.IBuilderException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -38,7 +38,7 @@ import java.util.Properties;
  * XPath解析器，用的都是JDK的类包,封装了一下，使得使用起来更方便
  * @author Clinton Begin
  */
-public class XPathParser {
+public class IXPathParser {
 
   private Document document;
   private boolean validation;
@@ -48,85 +48,85 @@ public class XPathParser {
 
 	//一些构造函数,全部调用commonConstructor以及createDocument
 	//1~4,默认不需要验证
-  public XPathParser(String xml) {
+  public IXPathParser(String xml) {
     commonConstructor(false, null, null);
     this.document = createDocument(new InputSource(new StringReader(xml)));
   }
 
-  public XPathParser(Reader reader) {
+  public IXPathParser(Reader reader) {
     commonConstructor(false, null, null);
     this.document = createDocument(new InputSource(reader));
   }
 
-  public XPathParser(InputStream inputStream) {
+  public IXPathParser(InputStream inputStream) {
     commonConstructor(false, null, null);
     this.document = createDocument(new InputSource(inputStream));
   }
 
-  public XPathParser(Document document) {
+  public IXPathParser(Document document) {
     commonConstructor(false, null, null);
     this.document = document;
   }
 
 	//5~8,传入是否需要验证参数
-  public XPathParser(String xml, boolean validation) {
+  public IXPathParser(String xml, boolean validation) {
     commonConstructor(validation, null, null);
     this.document = createDocument(new InputSource(new StringReader(xml)));
   }
 
-  public XPathParser(Reader reader, boolean validation) {
+  public IXPathParser(Reader reader, boolean validation) {
     commonConstructor(validation, null, null);
     this.document = createDocument(new InputSource(reader));
   }
 
-  public XPathParser(InputStream inputStream, boolean validation) {
+  public IXPathParser(InputStream inputStream, boolean validation) {
     commonConstructor(validation, null, null);
     this.document = createDocument(new InputSource(inputStream));
   }
 
-  public XPathParser(Document document, boolean validation) {
+  public IXPathParser(Document document, boolean validation) {
     commonConstructor(validation, null, null);
     this.document = document;
   }
 
 	//9~12,传入是否需要验证参数,Properties
-  public XPathParser(String xml, boolean validation, Properties variables) {
+  public IXPathParser(String xml, boolean validation, Properties variables) {
     commonConstructor(validation, variables, null);
     this.document = createDocument(new InputSource(new StringReader(xml)));
   }
 
-  public XPathParser(Reader reader, boolean validation, Properties variables) {
+  public IXPathParser(Reader reader, boolean validation, Properties variables) {
     commonConstructor(validation, variables, null);
     this.document = createDocument(new InputSource(reader));
   }
 
-  public XPathParser(InputStream inputStream, boolean validation, Properties variables) {
+  public IXPathParser(InputStream inputStream, boolean validation, Properties variables) {
     commonConstructor(validation, variables, null);
     this.document = createDocument(new InputSource(inputStream));
   }
 
-  public XPathParser(Document document, boolean validation, Properties variables) {
+  public IXPathParser(Document document, boolean validation, Properties variables) {
     commonConstructor(validation, variables, null);
     this.document = document;
   }
 
 	//13~16,传入是否需要验证参数,Properties,EntityResolver
-  public XPathParser(String xml, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public IXPathParser(String xml, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(new StringReader(xml)));
   }
 
-  public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public IXPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(reader));
   }
 
-  public XPathParser(InputStream inputStream, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public IXPathParser(InputStream inputStream, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = createDocument(new InputSource(inputStream));
   }
 
-  public XPathParser(Document document, boolean validation, Properties variables, EntityResolver entityResolver) {
+  public IXPathParser(Document document, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
     this.document = document;
   }
@@ -144,7 +144,7 @@ public class XPathParser {
 	//1.先用xpath解析
     String result = (String) evaluate(expression, root, XPathConstants.STRING);
 	//2.再调用PropertyParser去解析,也就是替换 ${} 这种格式的字符串
-    result = PropertyParser.parse(result, variables);
+    result = IPropertyParser.parse(result, variables);
     return result;
   }
 
@@ -197,31 +197,31 @@ public class XPathParser {
     return (Double) evaluate(expression, root, XPathConstants.NUMBER);
   }
 
-  public List<XNode> evalNodes(String expression) {
+  public List<IXNode> evalNodes(String expression) {
     return evalNodes(document, expression);
   }
 
 	//返回节点List
-  public List<XNode> evalNodes(Object root, String expression) {
-    List<XNode> xnodes = new ArrayList<XNode>();
+  public List<IXNode> evalNodes(Object root, String expression) {
+    List<IXNode> xnodes = new ArrayList<IXNode>();
     NodeList nodes = (NodeList) evaluate(expression, root, XPathConstants.NODESET);
     for (int i = 0; i < nodes.getLength(); i++) {
-      xnodes.add(new XNode(this, nodes.item(i), variables));
+      xnodes.add(new IXNode(this, nodes.item(i), variables));
     }
     return xnodes;
   }
 
-  public XNode evalNode(String expression) {
+  public IXNode evalNode(String expression) {
     return evalNode(document, expression);
   }
 
 	//返回节点
-  public XNode evalNode(Object root, String expression) {
+  public IXNode evalNode(Object root, String expression) {
     Node node = (Node) evaluate(expression, root, XPathConstants.NODE);
     if (node == null) {
       return null;
     }
-    return new XNode(this, node, variables);
+    return new IXNode(this, node, variables);
   }
 
   private Object evaluate(String expression, Object root, QName returnType) {
@@ -229,7 +229,7 @@ public class XPathParser {
 		//最终合流到这儿，直接调用XPath.evaluate
       return xpath.evaluate(expression, root, returnType);
     } catch (Exception e) {
-      throw new BuilderException("Error evaluating XPath.  Cause: " + e, e);
+      throw new IBuilderException("Error evaluating XPath.  Cause: " + e, e);
     }
   }
 
@@ -272,7 +272,7 @@ public class XPathParser {
       });
       return builder.parse(inputSource);
     } catch (Exception e) {
-      throw new BuilderException("Error creating document instance.  Cause: " + e, e);
+      throw new IBuilderException("Error creating document instance.  Cause: " + e, e);
     }
   }
 

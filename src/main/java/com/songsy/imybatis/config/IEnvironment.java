@@ -7,7 +7,7 @@ import javax.sql.DataSource;
  * @author songsy
  * @Date 2018/11/20 18:26
  */
-public final class Environment {
+public final class IEnvironment {
     // 环境id
     private final String id;
 
@@ -17,7 +17,7 @@ public final class Environment {
     // 数据源
     private final DataSource dataSource;
 
-    public Environment(String id, DataSource dataSource) {
+    public IEnvironment(String id, DataSource dataSource) {
         this.id = id;
         this.dataSource = dataSource;
     }

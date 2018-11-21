@@ -4,15 +4,15 @@ package com.songsy.imybatis.parsing;
  * 普通记号解析器，处理#{}和${}参数
  * @author Clinton Begin
  */
-public class GenericTokenParser {
+public class IGenericTokenParser {
 
   // 有一个开始和结束记号
   private final String openToken;
   private final String closeToken;
   // 记号处理器
-  private final TokenHandler handler;
+  private final ITokenHandler handler;
 
-  public GenericTokenParser(String openToken, String closeToken, TokenHandler handler) {
+  public IGenericTokenParser(String openToken, String closeToken, ITokenHandler handler) {
     this.openToken = openToken;
     this.closeToken = closeToken;
     this.handler = handler;

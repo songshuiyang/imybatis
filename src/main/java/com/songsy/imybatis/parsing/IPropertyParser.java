@@ -6,23 +6,23 @@ import java.util.Properties;
  * 属性解析器
  * @author Clinton Begin
  */
-public class PropertyParser {
+public class IPropertyParser {
 
-  private PropertyParser() {
+  private IPropertyParser() {
     // Prevent Instantiation
   }
 
   public static String parse(String string, Properties variables) {
-    VariableTokenHandler handler = new VariableTokenHandler(variables);
-    GenericTokenParser parser = new GenericTokenParser("${", "}", handler);
+    VariableITokenHandler handler = new VariableITokenHandler(variables);
+    IGenericTokenParser parser = new IGenericTokenParser("${", "}", handler);
     return parser.parse(string);
   }
 
   //就是一个map，用相应的value替换key
-  private static class VariableTokenHandler implements TokenHandler {
+  private static class VariableITokenHandler implements ITokenHandler {
     private Properties variables;
 
-    public VariableTokenHandler(Properties variables) {
+    public VariableITokenHandler(Properties variables) {
       this.variables = variables;
     }
 

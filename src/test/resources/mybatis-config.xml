@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration
+<!DOCTYPE IConfiguration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>
+<IConfiguration>
 
     <environments default="development">
         <environment id="development">
@@ -19,4 +19,4 @@
     <mappers>
         <mapper resource="org/mybatis/example/BlogMapper.xml"/>
     </mappers>
-</configuration>
+</IConfiguration>

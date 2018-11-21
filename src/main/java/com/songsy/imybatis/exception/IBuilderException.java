@@ -5,23 +5,23 @@ package com.songsy.imybatis.exception;
  * @author songsy
  * @Date 2018/11/20 17:19
  */
-public class BuilderException extends RuntimeException {
+public class IBuilderException extends RuntimeException {
 
     private static final long serialVersionUID = 3880206998166270511L;
 
-    public BuilderException() {
+    public IBuilderException() {
         super();
     }
 
-    public BuilderException(String message) {
+    public IBuilderException(String message) {
         super(message);
     }
 
-    public BuilderException(String message, Throwable cause) {
+    public IBuilderException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public BuilderException(Throwable cause) {
+    public IBuilderException(Throwable cause) {
         super(cause);
     }
 }

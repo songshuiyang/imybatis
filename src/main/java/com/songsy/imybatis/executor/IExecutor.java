@@ -5,5 +5,5 @@ package com.songsy.imybatis.executor;
  * @author songsy
  * @Date 2018/11/19 19:00
  */
-public interface Executor {
+public interface IExecutor {
 }

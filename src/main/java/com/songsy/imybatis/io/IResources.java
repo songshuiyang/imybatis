@@ -27,10 +27,10 @@ import java.util.Properties;
  *
  * @author Clinton Begin
  */
-public class Resources {
+public class IResources {
 
   //大多数方法都是委托给ClassLoaderWrapper，再去做真正的事
-  private static ClassLoaderWrapper classLoaderWrapper = new ClassLoaderWrapper();
+  private static IClassLoaderWrapper IClassLoaderWrapper = new IClassLoaderWrapper();
 
   /*
    * Charset to use when calling getResourceAsReader.
@@ -38,7 +38,7 @@ public class Resources {
    */
   private static Charset charset;
 
-  Resources() {
+  IResources() {
   }
 
   /*
@@ -47,7 +47,7 @@ public class Resources {
    * @return The default classloader
    */
   public static ClassLoader getDefaultClassLoader() {
-    return classLoaderWrapper.defaultClassLoader;
+    return IClassLoaderWrapper.defaultClassLoader;
   }
 
   /*
@@ -56,7 +56,7 @@ public class Resources {
    * @param defaultClassLoader - the new default ClassLoader
    */
   public static void setDefaultClassLoader(ClassLoader defaultClassLoader) {
-    classLoaderWrapper.defaultClassLoader = defaultClassLoader;
+    IClassLoaderWrapper.defaultClassLoader = defaultClassLoader;
   }
 
   /*
@@ -80,7 +80,7 @@ public class Resources {
    * @throws java.io.IOException If the resource cannot be found or read
    */
   public static URL getResourceURL(ClassLoader loader, String resource) throws IOException {
-    URL url = classLoaderWrapper.getResourceAsURL(resource, loader);
+    URL url = IClassLoaderWrapper.getResourceAsURL(resource, loader);
     if (url == null) {
       throw new IOException("Could not find resource " + resource);
     }
@@ -107,7 +107,7 @@ public class Resources {
    * @throws java.io.IOException If the resource cannot be found or read
    */
   public static InputStream getResourceAsStream(ClassLoader loader, String resource) throws IOException {
-    InputStream in = classLoaderWrapper.getResourceAsStream(resource, loader);
+    InputStream in = IClassLoaderWrapper.getResourceAsStream(resource, loader);
     if (in == null) {
       throw new IOException("Could not find resource " + resource);
     }
@@ -256,7 +256,7 @@ public class Resources {
    * @throws ClassNotFoundException If the class cannot be found (duh!)
    */
   public static Class<?> classForName(String className) throws ClassNotFoundException {
-    return classLoaderWrapper.classForName(className);
+    return IClassLoaderWrapper.classForName(className);
   }
 
   public static Charset getCharset() {
@@ -264,7 +264,7 @@ public class Resources {
   }
 
   public static void setCharset(Charset charset) {
-    Resources.charset = charset;
+    IResources.charset = charset;
   }
 
 }

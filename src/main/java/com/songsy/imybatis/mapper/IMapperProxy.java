@@ -5,5 +5,5 @@ package com.songsy.imybatis.mapper;
  * @author songsy
  * @Date 2018/11/19 19:04
  */
-public class MapperProxy {
+public class IMapperProxy {
 }

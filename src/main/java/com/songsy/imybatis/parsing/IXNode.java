@@ -31,7 +31,7 @@ import java.util.Properties;
  * 对org.w3c.dom.Node的包装
  *
  */
-public class XNode {
+public class IXNode {
 
   //org.w3c.dom.Node
   private Node node;
@@ -41,10 +41,10 @@ public class XNode {
   private Properties attributes;
   private Properties variables;
   //XPathParser方便xpath解析
-  private XPathParser xpathParser;
+  private IXPathParser xpathParser;
 
   //在构造时就把一些信息（属性，body）全部解析好，以便我们直接通过getter函数取得
-  public XNode(XPathParser xpathParser, Node node, Properties variables) {
+  public IXNode(IXPathParser xpathParser, Node node, Properties variables) {
     this.xpathParser = xpathParser;
     this.node = node;
     this.name = node.getNodeName();
@@ -53,17 +53,17 @@ public class XNode {
     this.body = parseBody(node);
   }
 
-  public XNode newXNode(Node node) {
-    return new XNode(xpathParser, node, variables);
+  public IXNode newXNode(Node node) {
+    return new IXNode(xpathParser, node, variables);
   }
 
-  public XNode getParent() {
+  public IXNode getParent() {
 		//调用Node.getParentNode,如果取到，包装一下，返回XNode
     Node parent = node.getParentNode();
     if (parent == null || !(parent instanceof Element)) {
       return null;
     } else {
-      return new XNode(xpathParser, parent, variables);
+      return new IXNode(xpathParser, parent, variables);
     }
   }
 
@@ -93,7 +93,7 @@ public class XNode {
 //	</resultMap>
   public String getValueBasedIdentifier() {
     StringBuilder builder = new StringBuilder();
-    XNode current = this;
+    IXNode current = this;
     while (current != null) {
       if (current != this) {
         builder.insert(0, "_");
@@ -128,11 +128,11 @@ public class XNode {
     return xpathParser.evalDouble(node, expression);
   }
 
-  public List<XNode> evalNodes(String expression) {
+  public List<IXNode> evalNodes(String expression) {
     return xpathParser.evalNodes(node, expression);
   }
 
-  public XNode evalNode(String expression) {
+  public IXNode evalNode(String expression) {
     return xpathParser.evalNode(node, expression);
   }
 
@@ -310,24 +310,24 @@ public class XNode {
   }
 
   //得到孩子，原理是调用Node.getChildNodes
-  public List<XNode> getChildren() {
-    List<XNode> children = new ArrayList<XNode>();
+  public List<IXNode> getChildren() {
+    List<IXNode> children = new ArrayList<IXNode>();
     NodeList nodeList = node.getChildNodes();
     if (nodeList != null) {
       for (int i = 0, n = nodeList.getLength(); i < n; i++) {
         Node node = nodeList.item(i);
         if (node.getNodeType() == Node.ELEMENT_NODE) {
-          children.add(new XNode(xpathParser, node, variables));
+          children.add(new IXNode(xpathParser, node, variables));
         }
       }
     }
     return children;
   }
 
-  //得到孩子，返回Properties，孩子的格式肯定都有name,value属性
+  // 得到孩子，返回Properties，孩子的格式肯定都有name,value属性
   public Properties getChildrenAsProperties() {
     Properties properties = new Properties();
-    for (XNode child : getChildren()) {
+    for (IXNode child : getChildren()) {
       String name = child.getStringAttribute("name");
       String value = child.getStringAttribute("value");
       if (name != null && value != null) {
@@ -350,10 +350,10 @@ public class XNode {
       builder.append(entry.getValue());
       builder.append("\"");
     }
-    List<XNode> children = getChildren();
+    List<IXNode> children = getChildren();
     if (!children.isEmpty()) {
       builder.append(">\n");
-      for (XNode node : children) {
+      for (IXNode node : children) {
         //递归取得孩子的toString
         builder.append(node.toString());
       }
@@ -380,7 +380,7 @@ public class XNode {
     if (attributeNodes != null) {
       for (int i = 0; i < attributeNodes.getLength(); i++) {
         Node attribute = attributeNodes.item(i);
-        String value = PropertyParser.parse(attribute.getNodeValue(), variables);
+        String value = IPropertyParser.parse(attribute.getNodeValue(), variables);
         attributes.put(attribute.getNodeName(), value);
       }
     }
@@ -407,7 +407,7 @@ public class XNode {
     if (child.getNodeType() == Node.CDATA_SECTION_NODE
         || child.getNodeType() == Node.TEXT_NODE) {
       String data = ((CharacterData) child).getData();
-      data = PropertyParser.parse(data, variables);
+      data = IPropertyParser.parse(data, variables);
       return data;
     }
     return null;

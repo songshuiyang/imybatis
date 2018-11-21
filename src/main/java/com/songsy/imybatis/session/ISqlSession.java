@@ -5,5 +5,5 @@ package com.songsy.imybatis.session;
  * @author songsy
  * @Date 2018/11/19 18:59
  */
-public interface SqlSession {
+public interface ISqlSession {
 }

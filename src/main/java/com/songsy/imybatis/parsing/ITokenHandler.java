@@ -22,7 +22,7 @@ package com.songsy.imybatis.parsing;
  * 记号处理器
  * 
  */
-public interface TokenHandler {
+public interface ITokenHandler {
 	//处理记号
   String handleToken(String content);
 }
