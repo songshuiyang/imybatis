@@ -18,19 +18,19 @@ import java.util.Properties;
  * @author songsy
  * @Date 2018/11/19 19:23
  */
-public class IXMLConfigBuilderI extends IBaseBuilder {
+public class IXMLConfigBuilder extends IBaseBuilder {
 
     // Xml解析器
     private IXPathParser parser;
     // 环境标识
     private String environment;
     /**
-     * 构造 IXMLConfigBuilderI
+     * 构造 IXMLConfigBuilder
      * @param inputStream
      * @param environment
      * @param props
      */
-    public IXMLConfigBuilderI(InputStream inputStream, String environment, Properties props) {
+    public IXMLConfigBuilder(InputStream inputStream, String environment, Properties props) {
         // 首先调用父类初始化Configuration
         super(new IConfiguration());
         this.parser = new IXPathParser(inputStream);
@@ -68,7 +68,7 @@ public class IXMLConfigBuilderI extends IBaseBuilder {
             //1.在 properties 元素体内指定的属性首先被读取。
             //2.从类路径下资源或 properties 元素的 url 属性中加载的属性第二被读取,它会覆盖已经存在的完全一样的属性。
             //3.作为方法参数传递的属性最后被读取, 它也会覆盖任一已经存在的完全一样的属性,这些属性可能是从 properties 元素体内和资源/url 属性中加载的。
-            //传入方式是调用构造函数时传入，public IXMLConfigBuilderI(Reader reader, String IEnvironment, Properties props)
+            //传入方式是调用构造函数时传入，public IXMLConfigBuilder(Reader reader, String IEnvironment, Properties props)
 
             //1.IXNode.getChildrenAsProperties函数方便得到孩子所有Properties
             Properties defaults = context.getChildrenAsProperties();

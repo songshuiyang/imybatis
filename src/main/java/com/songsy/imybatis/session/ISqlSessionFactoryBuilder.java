@@ -1,6 +1,6 @@
 package com.songsy.imybatis.session;
 
-import com.songsy.imybatis.builder.xml.IXMLConfigBuilderI;
+import com.songsy.imybatis.builder.xml.IXMLConfigBuilder;
 import com.songsy.imybatis.config.IConfiguration;
 import com.songsy.imybatis.session.defaults.IDefaultISqlSessionFactory;
 
@@ -21,7 +21,7 @@ public class ISqlSessionFactoryBuilder {
     }
 
     public ISqlSessionFactory build(InputStream inputStream, String environment, Properties properties) {
-        IXMLConfigBuilderI parser = new IXMLConfigBuilderI(inputStream, environment, properties);
+        IXMLConfigBuilder parser = new IXMLConfigBuilder(inputStream, environment, properties);
         IConfiguration IConfiguration = parser.parse();
         return build(IConfiguration);
     }
