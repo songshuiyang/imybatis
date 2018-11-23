@@ -40,5 +40,6 @@ public class ISqlSessionFactoryBuilder {
         File file = new File("src/test/resources/mybatis-config.xml");
         InputStream inputStream = new FileInputStream(file);
         ISqlSessionFactory ISqlSessionFactory = new ISqlSessionFactoryBuilder().build(inputStream);
+        ISqlSession iSqlSession = ISqlSessionFactory.openSession();
     }
 }

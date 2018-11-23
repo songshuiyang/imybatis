@@ -21,4 +21,12 @@ public final class IEnvironment {
         this.id = id;
         this.dataSource = dataSource;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 }

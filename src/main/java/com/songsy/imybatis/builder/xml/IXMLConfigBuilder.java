@@ -2,30 +2,32 @@ package com.songsy.imybatis.builder.xml;
 
 import com.songsy.imybatis.builder.IBaseBuilder;
 import com.songsy.imybatis.config.IConfiguration;
-import com.songsy.imybatis.datasource.IDataSourceFactory;
+import com.songsy.imybatis.config.IEnvironment;
+import com.songsy.imybatis.datasource.SimpleDataSource;
 import com.songsy.imybatis.exception.IBuilderException;
 import com.songsy.imybatis.io.IResources;
 import com.songsy.imybatis.parsing.IXNode;
 import com.songsy.imybatis.parsing.IXPathParser;
+import com.songsy.tmp.entity.User;
 
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.Properties;
 
 /**
  * Xml配置文件构建器
  * 建造者模式
+ *
  * @author songsy
  * @Date 2018/11/19 19:23
  */
 public class IXMLConfigBuilder extends IBaseBuilder {
-
     // Xml解析器
     private IXPathParser parser;
     // 环境标识
     private String environment;
     /**
      * 构造 IXMLConfigBuilder
+     *
      * @param inputStream
      * @param environment
      * @param props
@@ -48,6 +50,7 @@ public class IXMLConfigBuilder extends IBaseBuilder {
 
     /**
      * 解析配置
+     *
      * @param root
      */
     private void parseConfiguration(IXNode root) {
@@ -56,6 +59,9 @@ public class IXMLConfigBuilder extends IBaseBuilder {
             propertiesElement(root.evalNode("properties"));
             // 读取environments节点
             environmentsElement(root.evalNode("environments"));
+            // 读取mapper节点
+            this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = #{id}", User.class);
+
         } catch (Exception e) {
             throw new IBuilderException("Error parsing SQL Mapper IConfiguration. Cause: " + e, e);
         }
@@ -100,51 +106,29 @@ public class IXMLConfigBuilder extends IBaseBuilder {
             }
             for (IXNode child : context.getChildren()) {
                 String id = child.getStringAttribute("id");
-                // 循环比较id是否就是指定的environment
                 IXNode dataSourceContext = child.evalNode("dataSource");
-                IDataSourceFactory IDataSourceFactory = dataSourceElement(dataSourceContext);
-                IDataSourceFactory.getDataSource();
-
-
+                Properties props = dataSourceContext.getChildrenAsProperties();
+                String driver = "";
+                String url = "";
+                String username = "";
+                String password = "";
+                for (Object key : props.keySet()) {
+                    String keyStr = (String) key;
+                    String valueStr = props.getProperty(keyStr);
+                    if (key.equals("driver")) {
+                        driver = valueStr;
+                    } else if (key.equals("url")) {
+                        url = valueStr;
+                    } else if (key.equals("username")) {
+                        username = valueStr;
+                    } else if (key.equals("password")) {
+                        password = valueStr;
+                    }
+                }
+                SimpleDataSource simpleDataSource = new SimpleDataSource(driver, url, username, password);
+                IEnvironment iEnvironment = new IEnvironment(id, simpleDataSource);
+                IConfiguration.setIEnvironment(iEnvironment);
             }
         }
     }
-    private IDataSourceFactory dataSourceElement(IXNode context) throws Exception {
-        if (context != null) {
-            String type = context.getStringAttribute("type");
-            Properties props = context.getChildrenAsProperties();
-            // 根据type="POOLED"解析返回适当的DataSourceFactory
-            // PooledDataSourceFactory.class;
-
-            Class<?> aClass = resolveClass(type);
-            IDataSourceFactory factory = (IDataSourceFactory) aClass.newInstance();
-            factory.setProperties(props);
-            return factory;
-        }
-        throw new IBuilderException("IEnvironment declaration requires a IDataSourceFactory.");
-    }
-    /**
-     * 根据别名解析Class,其实是去查看 类型别名注册/事务管理器别名
-     * @param alias
-     * @return
-     */
-    protected Class<?> resolveClass(String alias) {
-        if (alias == null) {
-            return null;
-        }
-        try {
-            return resolveAlias(alias);
-        } catch (Exception e) {
-            throw new IBuilderException("Error resolving class. Cause: " + e, e);
-        }
-    }
-
-    protected Class<?> resolveAlias(String alias) throws Exception{
-        // 源码是在TypeAliasRegistry做的操作，这里做了简化
-        String key = alias.toLowerCase(Locale.ENGLISH);
-        Class<?> value = IResources.classForName(key);
-        return value;
-    }
-
-
 }
