@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * @author songsy
  * @Date 2018/11/23 16:40
  */
-public class SimpleDataSource implements DataSource {
+public class ISimpleDataSource implements DataSource {
 
     private static String dirverClassName;
     private static String url;
@@ -24,7 +24,7 @@ public class SimpleDataSource implements DataSource {
     // 连接池
     private static LinkedList<Connection> pool = new LinkedList<>();
 
-    public SimpleDataSource(String dirverClassName, String url, String username, String password) {
+    public ISimpleDataSource(String dirverClassName, String url, String username, String password) {
         this.dirverClassName = dirverClassName;
         this.url = url;
         this.username = username;

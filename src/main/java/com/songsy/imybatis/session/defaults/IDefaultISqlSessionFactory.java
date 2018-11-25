@@ -1,6 +1,9 @@
 package com.songsy.imybatis.session.defaults;
 
+import com.songsy.imybatis.config.ExecutorType;
 import com.songsy.imybatis.config.IConfiguration;
+import com.songsy.imybatis.executor.IExecutor;
+import com.songsy.imybatis.executor.ISimpleExecutor;
 import com.songsy.imybatis.session.ISqlSession;
 import com.songsy.imybatis.session.ISqlSessionFactory;
 
@@ -12,14 +15,16 @@ import com.songsy.imybatis.session.ISqlSessionFactory;
  */
 public class IDefaultISqlSessionFactory implements ISqlSessionFactory {
 
-    private final IConfiguration IConfiguration;
+    private final IConfiguration iConfiguration;
 
     public IDefaultISqlSessionFactory(IConfiguration IConfiguration) {
-        this.IConfiguration = IConfiguration;
+        this.iConfiguration = IConfiguration;
     }
 
     @Override
     public ISqlSession openSession() {
-        return null;
+        IExecutor iExecutor = iConfiguration.newIExecutor(ExecutorType.SIMPLE);
+        IDefaultISqlSession iDefaultISqlSession = new IDefaultISqlSession(iConfiguration, iExecutor);
+       return iDefaultISqlSession;
     }
 }

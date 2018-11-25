@@ -3,7 +3,7 @@ package com.songsy.imybatis.builder.xml;
 import com.songsy.imybatis.builder.IBaseBuilder;
 import com.songsy.imybatis.config.IConfiguration;
 import com.songsy.imybatis.config.IEnvironment;
-import com.songsy.imybatis.datasource.SimpleDataSource;
+import com.songsy.imybatis.datasource.ISimpleDataSource;
 import com.songsy.imybatis.exception.IBuilderException;
 import com.songsy.imybatis.io.IResources;
 import com.songsy.imybatis.parsing.IXNode;
@@ -59,7 +59,7 @@ public class IXMLConfigBuilder extends IBaseBuilder {
             propertiesElement(root.evalNode("properties"));
             // 读取environments节点
             environmentsElement(root.evalNode("environments"));
-            // 读取mapper节点
+            // 读取mapper节点 TODO 硬编码
             this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = #{id}", User.class);
 
         } catch (Exception e) {
@@ -125,8 +125,8 @@ public class IXMLConfigBuilder extends IBaseBuilder {
                         password = valueStr;
                     }
                 }
-                SimpleDataSource simpleDataSource = new SimpleDataSource(driver, url, username, password);
-                IEnvironment iEnvironment = new IEnvironment(id, simpleDataSource);
+                ISimpleDataSource ISimpleDataSource = new ISimpleDataSource(driver, url, username, password);
+                IEnvironment iEnvironment = new IEnvironment(id, ISimpleDataSource);
                 IConfiguration.setIEnvironment(iEnvironment);
             }
         }
