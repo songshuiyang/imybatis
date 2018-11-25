@@ -1,5 +1,9 @@
 package com.songsy.imybatis.session;
 
+import com.songsy.imybatis.binding.IMapperRegistry;
+import com.songsy.imybatis.config.IConfiguration;
+
+import javax.security.auth.login.Configuration;
 import java.sql.Connection;
 
 /**
@@ -9,9 +13,13 @@ import java.sql.Connection;
  */
 public interface ISqlSession {
 
-    <T> T selectOne(String statement);
+    <T> T selectOne(IMapperRegistry.MapperData mapperData, Object parameter);
 
     <T> T getMapper(Class<T> type);
 
     Connection getConnection();
+
+    IConfiguration getConfiguration();
+
+
 }

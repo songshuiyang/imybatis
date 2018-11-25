@@ -30,7 +30,7 @@ public class IStatementHandler extends IBaseStatementHandler{
             parameterHandler.setParameters(pstmt);
             pstmt.execute();
             // TODO 结果处理
-            return resultSetHandler.<E>handleResultSets(pstmt).get(0);
+            return resultSetHandler.handleResultSets(pstmt, mapperData);
         } catch (SQLException e) {
             e.printStackTrace();
         }

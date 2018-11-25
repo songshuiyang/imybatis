@@ -1,6 +1,7 @@
 package com.songsy.imybatis.test.mapper;
 
-import com.songsy.imybatis.test.entity.User;
+
+import com.songsy.tmp.entity.User;
 
 /**
  * 用户

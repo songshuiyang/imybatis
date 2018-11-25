@@ -3,7 +3,6 @@ package com.songsy.imybatis.session.defaults;
 import com.songsy.imybatis.config.ExecutorType;
 import com.songsy.imybatis.config.IConfiguration;
 import com.songsy.imybatis.executor.IExecutor;
-import com.songsy.imybatis.executor.ISimpleExecutor;
 import com.songsy.imybatis.session.ISqlSession;
 import com.songsy.imybatis.session.ISqlSessionFactory;
 

@@ -1,5 +1,6 @@
 package com.songsy.imybatis.session.defaults;
 
+import com.songsy.imybatis.binding.IMapperRegistry;
 import com.songsy.imybatis.config.IConfiguration;
 import com.songsy.imybatis.executor.IExecutor;
 import com.songsy.imybatis.session.ISqlSession;
@@ -22,17 +23,35 @@ public class IDefaultISqlSession implements ISqlSession {
     }
 
     @Override
-    public <T> T selectOne(String statement) {
-        return null;
+    public <T> T selectOne(IMapperRegistry.MapperData mapperData, Object parameter) {
+        return executor.doQuery(mapperData, parameter);
     }
 
     @Override
     public <T> T getMapper(Class<T> type) {
-        return null;
+        // 最后会去调用MapperRegistry.getMapper
+        return configuration.<T>getMapper(this, type);
     }
 
     @Override
     public Connection getConnection() {
         return null;
+    }
+
+    @Override
+    public IConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(IConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public IExecutor getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(IExecutor executor) {
+        this.executor = executor;
     }
 }

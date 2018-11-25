@@ -6,6 +6,7 @@ import com.songsy.imybatis.executor.ISimpleExecutor;
 import com.songsy.imybatis.executor.parameter.IDefaultParameterHandler;
 import com.songsy.imybatis.executor.result.IDefaultResultSetHandler;
 import com.songsy.imybatis.executor.statement.IStatementHandler;
+import com.songsy.imybatis.session.ISqlSession;
 
 import java.util.Properties;
 
@@ -50,8 +51,17 @@ public class IConfiguration {
         this.IEnvironment = IEnvironment;
     }
 
+    public IMapperRegistry getiMapperRegistry() {
+        return iMapperRegistry;
+    }
+
+    public void setiMapperRegistry(IMapperRegistry iMapperRegistry) {
+        this.iMapperRegistry = iMapperRegistry;
+    }
+
     /**
      * 添加mapper
+     *
      * @param methodNamespace
      * @param <T>
      */
@@ -60,10 +70,22 @@ public class IConfiguration {
     }
 
     /**
-     * 构建Executer
+     * 得到mapper
+     *
+     * @param type
+     * @param <T>
      * @return
      */
-    public IExecutor newIExecutor (ExecutorType executorType) {
+    public <T> T getMapper(ISqlSession iSqlSession , Class<T> type) {
+        return iMapperRegistry.getMapper(iSqlSession, type);
+    }
+
+    /**
+     * 构建Executer
+     *
+     * @return
+     */
+    public IExecutor newIExecutor(ExecutorType executorType) {
         IExecutor iExecutor = null;
         if (executorType == defaultExecutorType) {
             iExecutor = new ISimpleExecutor(this);
@@ -73,6 +95,7 @@ public class IConfiguration {
 
     /**
      * 构建语句处理器
+     *
      * @return
      */
     public IStatementHandler newStatementHandler() {
@@ -81,6 +104,7 @@ public class IConfiguration {
 
     /**
      * 构建参数处理器
+     *
      * @return
      */
     public IDefaultParameterHandler newParameterHandler() {
@@ -89,6 +113,7 @@ public class IConfiguration {
 
     /**
      * 构建结果处理器
+     *
      * @return
      */
     public IDefaultResultSetHandler newResultSetHandler() {

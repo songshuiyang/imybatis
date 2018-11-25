@@ -35,11 +35,4 @@ public class ISqlSessionFactoryBuilder {
     public ISqlSessionFactory build(IConfiguration config) {
         return new IDefaultISqlSessionFactory(config);
     }
-
-    public static void main(String[] args) throws Exception {
-        File file = new File("src/test/resources/mybatis-config.xml");
-        InputStream inputStream = new FileInputStream(file);
-        ISqlSessionFactory ISqlSessionFactory = new ISqlSessionFactoryBuilder().build(inputStream);
-        ISqlSession iSqlSession = ISqlSessionFactory.openSession();
-    }
 }

@@ -60,7 +60,8 @@ public class IXMLConfigBuilder extends IBaseBuilder {
             // 读取environments节点
             environmentsElement(root.evalNode("environments"));
             // 读取mapper节点 TODO 硬编码
-            this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = #{id}", User.class);
+            // this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = #{id}", User.class);
+            this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = 1", User.class);
 
         } catch (Exception e) {
             throw new IBuilderException("Error parsing SQL Mapper IConfiguration. Cause: " + e, e);

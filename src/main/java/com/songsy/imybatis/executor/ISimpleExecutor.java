@@ -4,14 +4,12 @@ import com.songsy.imybatis.binding.IMapperRegistry;
 import com.songsy.imybatis.config.IConfiguration;
 import com.songsy.imybatis.executor.statement.IStatementHandler;
 
-import javax.security.auth.login.Configuration;
-
 /**
  * 简单执行器
  * @author songshuiyang
  * @date 2018/11/25 10:07
  */
-public class ISimpleExecutor extends BaseExecutor {
+public class ISimpleExecutor extends IBaseExecutor {
 
     public ISimpleExecutor(IConfiguration configuration) {
         super(configuration);

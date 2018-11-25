@@ -1,7 +1,10 @@
 package com.songsy.imybatis.binding;
 
 import com.songsy.imybatis.exception.IPersistenceException;
+import com.songsy.imybatis.mapper.IMapperProxy;
+import com.songsy.imybatis.session.ISqlSession;
 
+import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +48,7 @@ public class IMapperRegistry {
         }
     }
 
-    public static Map<String, MapperData> getKnownMappers() {
+    public Map<String, MapperData> getKnownMappers() {
         return knownMappers;
     }
 
@@ -60,6 +63,17 @@ public class IMapperRegistry {
             throw new IPersistenceException(methodNamespace + "mapper is exist");
         }
         knownMappers.put(methodNamespace, mapperData);
+    }
+
+    /**
+     * 得到Mapper代理类
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T> T getMapper(ISqlSession sqlSession, Class<T> clazz) {
+        return (T) Proxy.newProxyInstance(clazz.getClassLoader(),
+                new Class[]{clazz},new IMapperProxy(sqlSession,clazz));
     }
 
 

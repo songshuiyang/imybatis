@@ -8,11 +8,11 @@ import javax.security.auth.login.Configuration;
  * @author songshuiyang
  * @date 2018/11/25 10:31
  */
-public abstract class BaseExecutor implements IExecutor{
+public abstract class IBaseExecutor implements IExecutor{
 
     protected IConfiguration configuration;
 
-    public BaseExecutor(IConfiguration configuration) {
+    public IBaseExecutor(IConfiguration configuration) {
         this.configuration = configuration;
     }
 
