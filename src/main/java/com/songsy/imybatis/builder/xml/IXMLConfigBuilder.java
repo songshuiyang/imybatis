@@ -16,9 +16,6 @@ import java.util.Properties;
 /**
  * Xml配置文件构建器
  * 建造者模式
- *
- * @author songsy
- * @Date 2018/11/19 19:23
  */
 public class IXMLConfigBuilder extends IBaseBuilder {
     // Xml解析器
@@ -61,7 +58,7 @@ public class IXMLConfigBuilder extends IBaseBuilder {
             environmentsElement(root.evalNode("environments"));
             // 读取mapper节点 TODO 硬编码
             // this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = #{id}", User.class);
-            this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = 1", User.class);
+            this.IConfiguration.addMapper("com.songsy.imybatis.test.mapper.UserMapper.selectByPrimaryKey","SELECT * FROM sys_user WHERE id = %s", User.class);
 
         } catch (Exception e) {
             throw new IBuilderException("Error parsing SQL Mapper IConfiguration. Cause: " + e, e);

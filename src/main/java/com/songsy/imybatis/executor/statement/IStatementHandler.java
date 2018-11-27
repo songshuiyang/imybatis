@@ -3,6 +3,8 @@ package com.songsy.imybatis.executor.statement;
 import com.songsy.imybatis.binding.IMapperRegistry;
 import com.songsy.imybatis.config.IConfiguration;
 import com.songsy.imybatis.config.IEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -16,6 +18,8 @@ import java.sql.SQLException;
  */
 public class IStatementHandler extends IBaseStatementHandler{
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public IStatementHandler(IConfiguration configuration) {
         super(configuration);
     }
@@ -25,7 +29,8 @@ public class IStatementHandler extends IBaseStatementHandler{
             IEnvironment iEnvironment = configuration.getIEnvironment();
             DataSource dataSource = iEnvironment.getDataSource();
             Connection connection = dataSource.getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(String.format(mapperData.getSql(), Integer.parseInt(String.valueOf(parameter))));
+            String sql = String.format(mapperData.getSql(), Integer.parseInt(String.valueOf(parameter)));
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             // TODO 参数处理
             parameterHandler.setParameters(pstmt);
             pstmt.execute();
